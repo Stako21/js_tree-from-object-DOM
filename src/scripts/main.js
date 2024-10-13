@@ -26,6 +26,10 @@ document.body.appendChild(treeDiv);
 const tree = document.querySelector('#tree');
 
 function createTree(element, data) {
+  if (element === null || data === undefined) {
+    throw new Error('arguments must not be null or undefined');
+  }
+
   const ul = document.createElement('ul');
 
   for (const key in data) {
@@ -33,12 +37,15 @@ function createTree(element, data) {
 
     li.textContent = key;
 
-    if (Object.keys(data[key]).length > 0) {
+    if (Object.entries(data[key]).length > 0) {
       createTree(li, data[key]);
     }
     ul.appendChild(li);
   }
-  element.appendChild(ul);
+
+  if (ul.childNodes.length > 0) {
+    element.appendChild(ul);
+  }
 }
 
 createTree(tree, food);
