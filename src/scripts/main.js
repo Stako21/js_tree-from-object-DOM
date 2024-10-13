@@ -25,27 +25,33 @@ document.body.appendChild(treeDiv);
 
 const tree = document.querySelector('#tree');
 
-function createTree(element, data) {
-  if (element === null) {
-    throw new Error(`First argument must not be null or undefined`);
-  }
+function createListElement(key) {
+  const li = document.createElement('li');
 
-  if (data === undefined) {
-    throw new Error(`Second argument must not be null or undefined`);
-  }
+  li.textContent = key;
 
+  return li;
+}
+
+function createList() {
+  return document.createElement('ul');
+}
+
+function createTree(element = document.body, data = {}) {
   if (Object.entries(data).length === 0) {
     return;
   }
 
-  const ul = document.createElement('ul');
+  const ul = createList();
 
   for (const [key, value] of Object.entries(data)) {
-    const li = document.createElement('li');
+    const li = createListElement(key);
 
-    li.textContent = key;
-
-    if (Object.entries(value).length > 0) {
+    if (
+      value &&
+      typeof value === 'object' &&
+      Object.entries(value).length > 0
+    ) {
       createTree(li, value);
     }
     ul.appendChild(li);
