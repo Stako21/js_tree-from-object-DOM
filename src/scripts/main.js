@@ -26,26 +26,32 @@ document.body.appendChild(treeDiv);
 const tree = document.querySelector('#tree');
 
 function createTree(element, data) {
-  if (element === null || data === undefined) {
-    throw new Error('arguments must not be null or undefined');
+  if (element === null) {
+    throw new Error(`First argument must not be null or undefined`);
+  }
+
+  if (data === undefined) {
+    throw new Error(`Second argument must not be null or undefined`);
+  }
+
+  if (Object.entries(data).length === 0) {
+    return;
   }
 
   const ul = document.createElement('ul');
 
-  for (const key in data) {
+  for (const [key, value] of Object.entries(data)) {
     const li = document.createElement('li');
 
     li.textContent = key;
 
-    if (Object.entries(data[key]).length > 0) {
-      createTree(li, data[key]);
+    if (Object.entries(value).length > 0) {
+      createTree(li, value);
     }
     ul.appendChild(li);
   }
 
-  if (ul.childNodes.length > 0) {
-    element.appendChild(ul);
-  }
+  element.appendChild(ul);
 }
 
 createTree(tree, food);
